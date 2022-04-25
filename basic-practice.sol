@@ -1,6 +1,12 @@
 //SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.5.0 < 0.9.0;
- 
+
+
+struct student {
+    uint rollno ;
+    string name ; 
+}
+
 contract demo {
     // int8 public number = 128;
     // string public str= "hello world";
@@ -138,5 +144,66 @@ contract demo {
         string[] storage v1 = vehicles;
         v1[0] = "aeroplane";
     }
+    // structures (structs)  - its userdefined data type  , used for combining other datatypes in one
+    // can be created inside the contract and outside the contract 
+
+    student public s1 ;
+
+    function setStruct(uint rollno , string memory name) public {
+        s1.rollno = rollno;
+        s1.name = name;
+    }
+
+    function createStruc(uint _roll , string memory _name) public {
+        student memory new_student = student({
+            rollno: _roll , 
+            name : _name
+        });
+        s1 = new_student;
+    }
+
+    // enums - these are user defined data type used for assigning name to integral values 
+    // good for small sizes
+    enum user {allowed,not_allowed,wait}
+    user public u1 = user.allowed; // u1 = 0
+    user public u2 = user.not_allowed; // u2 = 1
+    user public u3 = user.wait; // u3 = 2 
+
+    uint public lottery = 1000;
+
+    function checks() public {
+        if(u3 != user.allowed){
+            lottery = 0;
+        }
+    }
+
+    enum State { start , run , stop }
+    State public vars  = State.run;
+
+    // mappings - its datatype used to map keys to values 
+
+    mapping(uint => string) public students ;
+    function input(string memory _name , uint _roll) public {
+        students[_roll] = _name;
+    }
+    // mapping to struct
+    struct studentss {
+        string name ;
+        uint class;
+        uint age;
+    }
+    mapping(uint => studentss) public data;
+    function newInput(uint _roll ,string memory _name , uint _class , uint _age) public {
+        data[_roll] =  studentss(_name , _class, _age);
+    }
+
+    // special vairables & functions 
+    function get() public view returns(uint gasLimit, uint blockNumber , uint blockTimeStamp, address caller){
+        return(block.gaslimit, block.number, block.timestamp, msg.sender);
+    }
 }
+
+
+
+
 
